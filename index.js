@@ -17,7 +17,7 @@ app.use(route);
 app.use(cors());
 
 app.get('/', function (req, res) {
-    res.send('Working');
+    res.send('API is Working');
 })
 
 app.listen(PORT, (error) => {
