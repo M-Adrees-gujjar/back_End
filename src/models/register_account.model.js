@@ -33,7 +33,7 @@ async function signUP_DB(username, email, password, confirm_password) {
         }
     } catch (error) {
         console.log("Went Wrong");
-        return false
+        return error
     }
 }
 
