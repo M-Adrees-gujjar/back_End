@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const connection = require('../models/connection.model');
 const jwt = require('jsonwebtoken');
 const signUP_schema = new mongoose.Schema({
     username: String,
@@ -10,6 +11,7 @@ const user_detials = mongoose.model("user_detials", signUP_schema);
 
 async function signUP_DB(username, email, password, confirm_password) {
     try {
+        connection();
         if (password == confirm_password) {
             const user = await user_detials.find({
                 email: email,
@@ -39,6 +41,7 @@ async function signUP_DB(username, email, password, confirm_password) {
 
 async function logIn_DB(email, password) {
     try {
+        connection();
         const user = await user_detials.find({
             email: email,
             password: password
