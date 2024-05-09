@@ -2,6 +2,7 @@ const { signUP_DB, logIn_DB } = require('../models/register_account.model');
 
 async function signUp(req, res) {
     const response = req.body;
+    console.log("signUP------",response);
     let result = await signUP_DB(response.username, response.email, response.password, response.confirm_password);
     res.send({
         response: result

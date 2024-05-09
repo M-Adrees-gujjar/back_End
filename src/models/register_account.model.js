@@ -11,6 +11,7 @@ const user_detials = mongoose.model("user_detials", signUP_schema);
 
 async function signUP_DB(username, email, password, confirm_password) {
     try {
+        console.log('sig------',username);
         await connection();
         if (password == confirm_password) {
             const user = await user_detials.find({
