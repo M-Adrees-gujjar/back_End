@@ -16,14 +16,10 @@ app.use(express.json());
 app.use(route);
 app.use(cors());
 
-app.get('/', function (req, res) {
-    res.send('API is Working');
-})
-
 app.listen(PORT, (error) => {
     if (!error) {
         db_conection();
-        console.log(`App is listening on port ${PORT} `);
+        console.log(`App is listening on http://localhost:${PORT}`);
     } else {
         console.log('Error, server can\'t start', error);
     }

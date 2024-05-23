@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const connection = require('../models/connection.model');
 const jwt = require('jsonwebtoken');
 const signUP_schema = new mongoose.Schema({
     username: String,
@@ -11,38 +10,51 @@ const user_detials = mongoose.model("user_detials", signUP_schema);
 
 async function signUP_DB(username, email, password, confirm_password) {
     try {
-        console.log('sig------',username);
-        await connection();
-        if (password == confirm_password) {
-            const user = await user_detials.find({
-                email: email,
-                password: password
-            });
-            if (user.length == 0) {
-                const user = await user_detials({
-                    username: username,
-                    email: email,
-                    password: password
-                });
-                await user.save();
-                return "SuccessFull"
-            } else {
-                console.log("Email already Exit");
-                return "Email already Exit"
-            }
-        } else {
-            console.log("Password Does not Match with Confirm Password");
-            return "Password Does not Match with Confirm Password";
+
+        const user_find = await user_detials.findOne({ email: email });
+
+        if (user_find) {
+            console.log("user------", user);
+            return "Email already Exist"
         }
+
+        const user = await user_detials({
+            username: username,
+            email: email,
+            password: password
+        });
+        await user.save();
+        return "SignUP SuccessFull";
+
+        // if (password == confirm_password) {
+        //     const user = await user_detials.find({
+        //         email: email,
+        //         password: password
+        //     });
+        //     if (user.length == 0) {
+        //         const user = await user_detials({
+        //             username: username,
+        //             email: email,
+        //             password: password
+        //         });
+        //         await user.save();
+        //         return "SignUP SuccessFull"
+        //     } else {
+        //         console.log("Email already Exist");
+        //         return "Email already Exist"
+        //     }
+        // } else {
+        //     console.log("Password Does not Match with Confirm Password");
+        //     return "Password Does not Match with Confirm Password";
+        // }
     } catch (error) {
-        console.log("Went Wrong");
-        return error
+        console.log("Some thing Went Wrong---", error);
+        return "Some thing Went Wrong---", error;
     }
 }
 
 async function logIn_DB(email, password) {
     try {
-        await connection();
         const user = await user_detials.find({
             email: email,
             password: password
